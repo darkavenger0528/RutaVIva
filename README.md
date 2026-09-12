@@ -38,16 +38,3 @@ rutaviva/
 - **"Usar mi ubicación"**: usa la geolocalización del navegador para calcular el
   centro de acopio más cercano.
 
-## Publicar en GitHub Pages
-
-1. Crea un repositorio en GitHub y sube todo el contenido de esta carpeta.
-2. Ve a **Settings → Pages**.
-3. En "Source" elige la rama `main` y la carpeta `/root` (raíz).
-4. Guarda. En un par de minutos tu sitio estará disponible en
-   `https://tu-usuario.github.io/nombre-del-repositorio/`.
-
-## Personalizar colores y textos
-
-Los colores principales están centralizados como variables CSS al inicio de
-`css/style.css` (`--green`, `--brown`, `--ink`, etc.), así que puedes ajustar la
-paleta completa desde un solo lugar.
