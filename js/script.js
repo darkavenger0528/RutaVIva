@@ -1,7 +1,6 @@
 /* =========================================================
    RutaVIVA — lógica de la página
    Todo funciona 100% en el navegador (localStorage), sin backend.
-   Para producción real, conecta el formulario a tu propia API.
    ========================================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -70,15 +69,51 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* =========================================================
-     2. CENTROS DE ACOPIO
+     2. CENTROS DE ACOPIO OFICIALES (BOGOTÁ)
      ========================================================= */
-  // Coordenadas de ejemplo (área de Medellín). Reemplaza por datos reales.
   const CENTROS = [
-    { nombre: 'Cruz Roja Colombiana – Seccional Antioquia', direccion: 'Cra 47 #26-90, Medellín', lat: 6.2296, lng: -75.5763 },
-    { nombre: 'Estadio Atanasio Girardot',                  direccion: 'Cl 48 #73-100, Medellín',  lat: 6.2571, lng: -75.5903 },
-    { nombre: 'Universidad de Antioquia',                   direccion: 'Cl 67 #53-108, Medellín',  lat: 6.2678, lng: -75.5686 },
-    { nombre: 'Alcaldía de Medellín',                       direccion: 'Cl 44 #52-165, Medellín',  lat: 6.2447, lng: -75.5748 },
-    { nombre: 'Fundación Saciar',                           direccion: 'Cra 65 #98A-67, Medellín', lat: 6.2802, lng: -75.5906 }
+    { 
+      nombre: 'Cruz Roja Seccional Cundinamarca y Bogotá', 
+      direccion: 'Cra. 23 #73-19, San Felipe, Bogotá', 
+      lat: 4.6640, 
+      lng: -74.0660 
+    },
+    { 
+      nombre: 'Cruz Roja Sede Nacional', 
+      direccion: 'Av. Cra. 68 #66-31, Engativá, Bogotá', 
+      lat: 4.6685, 
+      lng: -74.0952 
+    },
+    { 
+      nombre: 'Alcaldía Local de Usaquén', 
+      direccion: 'Calle 161A #7F-55, Usaquén, Bogotá', 
+      lat: 4.7385, 
+      lng: -74.0298 
+    },
+    { 
+      nombre: 'Centro Comercial Unicentro', 
+      direccion: 'Cra. 15 #124-30, Bogotá', 
+      lat: 4.7022, 
+      lng: -74.0415 
+    },
+    { 
+      nombre: 'Universidad Jorge Tadeo Lozano', 
+      direccion: 'Cra. 4 #22-61, Centro, Bogotá', 
+      lat: 4.6062, 
+      lng: -74.0683 
+    },
+    { 
+      nombre: 'Defensa Civil Colombiana - Seccional Bogotá', 
+      direccion: 'Calle 53 #27A-25, Teusaquillo, Bogotá', 
+      lat: 4.6465, 
+      lng: -74.0772 
+    },
+    { 
+      nombre: 'IDIGER - Sede Principal', 
+      direccion: 'Diagonal 47 #77A-09, Engativá, Bogotá', 
+      lat: 4.6931, 
+      lng: -74.1032 
+    }
   ];
 
   const centroSelect = document.getElementById('centroCercano');
@@ -187,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const el = document.getElementById(elId);
     if (!el || typeof L === 'undefined') return;
 
-    const map = L.map(elId, { scrollWheelZoom: false }).setView([puntos[0].lat, puntos[0].lng], 12);
+    const map = L.map(elId, { scrollWheelZoom: false }).setView([puntos[0].lat, puntos[0].lng], 11);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors',
       maxZoom: 19
@@ -207,12 +242,12 @@ document.addEventListener('DOMContentLoaded', () => {
   crearMapa('mapaCentros', CENTROS.map(c => ({ nombre: c.nombre, detalle: c.direccion, lat: c.lat, lng: c.lng })), '#37C928');
 
   /* =========================================================
-     5. RUTAS ACTIVAS
+     5. RUTAS ACTIVAS (BOGOTÁ Y VÍAS DE ACCESO)
      ========================================================= */
   const RUTAS = [
-    { nombre: 'Recorriendo por Vía Cajamarca',    hace: 'Actualizado hace 2 horas', lat: 4.4389, lng: -75.4272 },
-    { nombre: 'Recorriendo por Vía 50, Chocó',    hace: 'Actualizado hace 3 horas', lat: 5.6919, lng: -76.6583 },
-    { nombre: 'Recorriendo por Sabaneta, Ant.',   hace: 'Actualizado hace 3 horas', lat: 6.1500, lng: -75.6167 }
+    { nombre: 'Ruta de Ayuda Vía La Calera - Bogotá', hace: 'Actualizado hace 1 hora', lat: 4.6850, lng: -73.9850 },
+    { nombre: 'Ruta Corredor Autopista Norte',        hace: 'Actualizado hace 2 horas', lat: 4.7600, lng: -74.0400 },
+    { nombre: 'Ruta de Distribución Sur - Usme',       hace: 'Actualizado hace 3 horas', lat: 4.4700, lng: -74.1200 }
   ];
 
   const listaRutas = document.getElementById('listaRutas');
@@ -231,7 +266,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* =========================================================
      6. CARRUSEL "Así quedamos después del terremoto" (26 fotos)
-     Rutas relativas: images/despues-terremoto/1.jpg ... 26.jpg
      ========================================================= */
   const TOTAL_FOTOS = 26;
   const CARPETA_FOTOS = 'images/despues-terremoto';
@@ -266,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('carruselNext').addEventListener('click', () => irAFoto(indiceActual + 1));
   irAFoto(0);
 
-  // deslizar con el dedo en móvil
+  // Deslizar con el dedo en móvil
   let xInicio = null;
   const carrusel = document.getElementById('carrusel');
   carrusel.addEventListener('touchstart', (e) => { xInicio = e.touches[0].clientX; }, { passive: true });
@@ -277,7 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
     xInicio = null;
   });
 
-  // autoplay suave, se detiene si el usuario interactúa
+  // Autoplay
   let autoplay = setInterval(() => irAFoto(indiceActual + 1), 5000);
   ['click', 'touchstart'].forEach(evt =>
     carrusel.addEventListener(evt, () => { clearInterval(autoplay); }, { once: true })
