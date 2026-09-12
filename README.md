@@ -1,2 +1,67 @@
-# RutaVIva
-RutaVIVA es una plataforma web diseñada para conectar a personas afectadas por desastres naturales con recursos y ayuda humanitaria de forma rápida y sencilla. Permite a los usuarios registrar sus necesidades de insumos, consultar la disponibilidad en los centros de acopio más cercanos y verificar rutas de entrega activas
+# RutaVIVA
+
+Sitio web responsivo (móvil y laptop) para ayudar a coordinar la respuesta comunitaria
+después de un desastre natural: la gente registra lo que necesita, consulta la
+disponibilidad en centros de acopio y sigue las rutas de entrega activas.
+
+Es HTML + CSS + JavaScript puro, sin frameworks ni proceso de build, así que puedes
+subirlo directo a GitHub Pages.
+
+## Estructura
+
+```
+rutaviva/
+├── index.html
+├── css/
+│   └── style.css
+├── js/
+│   └── script.js
+├── images/
+│   └── despues-terremoto/   ← coloca aquí 1.jpg ... 26.jpg
+└── README.md
+```
+
+## Cómo agregar tus 26 fotos
+
+1. Nombra tus fotos `1.jpg`, `2.jpg`, ... `26.jpg`.
+2. Cópialas dentro de `images/despues-terremoto/`.
+3. Listo — el carrusel de la sección "Así quedamos después del terremoto" las carga
+   automáticamente con rutas relativas, sin tocar el código.
+
+Si tus fotos tienen otra extensión (`.png`, `.jpeg`, mayúsculas, etc.), ajusta esta
+línea en `js/script.js`:
+
+```js
+img.src = `${CARPETA_FOTOS}/${i}.jpg`;
+```
+
+## Qué es funcional y qué es demo
+
+- **Registrar necesidades**: funciona en el navegador con `localStorage`. Cada
+  solicitud queda guardada en el dispositivo de quien la llena. Para que las
+  solicitudes lleguen realmente a una base de datos central, conecta el formulario
+  (en `js/script.js`, función `formNecesidad.addEventListener('submit', ...)`) a tu
+  propio backend o a un servicio como Google Sheets, Airtable o Formspree.
+- **Centros de acopio**: la lista y el mapa usan 5 coordenadas de ejemplo en
+  Medellín (arreglo `CENTROS` en `js/script.js`). Reemplázalas por tus centros
+  reales (nombre, dirección, latitud, longitud).
+- **Rutas activas**: igual que arriba, son datos de ejemplo (arreglo `RUTAS`).
+  Para rutas en vivo necesitarías una fuente de datos (GPS de los vehículos) que
+  actualice ese arreglo, por ejemplo vía una API.
+- **Mapas**: usan Leaflet + OpenStreetMap (gratis, sin necesidad de API key).
+- **"Usar mi ubicación"**: usa la geolocalización del navegador para calcular el
+  centro de acopio más cercano.
+
+## Publicar en GitHub Pages
+
+1. Crea un repositorio en GitHub y sube todo el contenido de esta carpeta.
+2. Ve a **Settings → Pages**.
+3. En "Source" elige la rama `main` y la carpeta `/root` (raíz).
+4. Guarda. En un par de minutos tu sitio estará disponible en
+   `https://tu-usuario.github.io/nombre-del-repositorio/`.
+
+## Personalizar colores y textos
+
+Los colores principales están centralizados como variables CSS al inicio de
+`css/style.css` (`--green`, `--brown`, `--ink`, etc.), así que puedes ajustar la
+paleta completa desde un solo lugar.

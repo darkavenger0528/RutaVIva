@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RutaVIVA — Ayuda en desastres naturales</title>
+<meta name="description" content="RutaVIVA conecta a las personas afectadas por un desastre natural con los centros de acopio más cercanos: registra lo que necesitas, consulta la disponibilidad y sigue las rutas de entrega activas.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <a href="#inicio" class="wordmark">Ruta<span>VIVA</span></a>
+
+    <nav class="header-actions">
+      <button class="icon-btn" aria-label="Buscar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Cuenta">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4.5 5-7 8-7s6.5 2.5 8 7"/></svg>
+      </button>
+    </nav>
+  </div>
+
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="#registrar">Registrar necesidades</a>
+    <a href="#centros">Centros de acopio</a>
+    <a href="#rutas">Rutas activas</a>
+    <a href="#galeria">Galería</a>
+  </nav>
+</header>
+
+<main id="contenido">
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="hero-inner">
+      <h1 class="hero-word">Ruta<span>VIVA</span></h1>
+      <p class="hero-tag">Después de un desastre, lo primero es saber qué falta y a dónde ir a buscarlo.</p>
+      <div class="hero-cta">
+        <a href="#registrar" class="btn btn-dark">Registrar lo que necesito</a>
+        <a href="#rutas" class="btn btn-outline">Ver rutas activas</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMENCEMOS -->
+  <section class="section" id="comencemos">
+    <h2 class="section-title">Comencemos</h2>
+    <div class="start-cards">
+      <a class="start-card" href="#registrar">
+        <span class="start-card-icon" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>
+        </span>
+        Registra lo que necesitas
+      </a>
+      <a class="start-card" href="#centros">
+        <span class="start-card-icon" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9.5 12 3l9 6.5V21H3z"/><path d="M9 21v-7h6v7"/></svg>
+        </span>
+        Disponibilidad en centros de acopio
+      </a>
+      <a class="start-card" href="#rutas">
+        <span class="start-card-icon" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="9" width="14" height="8" rx="1"/><path d="M15 12h4l3 3v2h-2"/><circle cx="6" cy="19" r="1.6"/><circle cx="17.5" cy="19" r="1.6"/></svg>
+        </span>
+        Revisa rutas activas
+      </a>
+    </div>
+  </section>
+
+  <!-- REGISTRAR NECESIDADES -->
+  <section class="section section-alt" id="registrar">
+    <h2 class="section-title">Registra lo que necesitas</h2>
+    <p class="section-lead">Marca los recursos que te hacen falta. Ya seleccionados: <strong id="contadorSeleccion">0</strong></p>
+
+    <label class="search-box">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="buscarRecurso" placeholder="Busca recursos en específico">
+    </label>
+
+    <div class="chip-grid" id="listaRecursos">
+      <!-- generado por JS -->
+    </div>
+
+    <form class="request-form" id="formNecesidad">
+      <div class="form-row">
+        <label for="cantidad">Personas a abastecer (aprox.)</label>
+        <input type="number" id="cantidad" min="1" value="1" required>
+      </div>
+
+      <div class="form-row">
+        <label for="centroCercano">Centro de acopio para recoger</label>
+        <div class="select-with-btn">
+          <select id="centroCercano" required></select>
+          <button type="button" class="btn btn-small" id="btnUbicacion">Usar mi ubicación</button>
+        </div>
+        <p class="hint" id="hintUbicacion">Detectamos el centro más cercano según tu ubicación.</p>
+      </div>
+
+      <button type="submit" class="btn btn-dark btn-full">Enviar solicitud</button>
+    </form>
+
+    <div class="my-requests" id="misSolicitudes" hidden>
+      <h3>Tus solicitudes registradas</h3>
+      <ul id="listaSolicitudes"></ul>
+    </div>
+  </section>
+
+  <!-- CENTROS DE ACOPIO -->
+  <section class="section" id="centros">
+    <h2 class="section-title">Disponibilidad en centros de acopio</h2>
+    <label class="search-box">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="buscarCentro" placeholder="Busca centros en específico">
+    </label>
+
+    <div class="map-frame" id="mapaCentros" role="img" aria-label="Mapa con la ubicación de los centros de acopio"></div>
+
+    <ul class="center-list" id="listaCentros"></ul>
+  </section>
+
+  <!-- RUTAS ACTIVAS -->
+  <section class="section section-alt" id="rutas">
+    <h2 class="section-title">Revisar rutas activas</h2>
+    <div class="map-frame" id="mapaRutas" role="img" aria-label="Mapa con las rutas de entrega activas"></div>
+
+    <ul class="route-list" id="listaRutas"></ul>
+  </section>
+
+  <!-- GALERÍA / CARRUSEL -->
+  <section class="section gallery-section" id="galeria">
+    <h2 class="section-title">Así quedamos después del terremoto</h2>
+    <p class="section-lead">26 fotos tomadas por la comunidad en los días siguientes al sismo.</p>
+
+    <div class="carousel" id="carrusel">
+      <div class="carousel-track" id="carruselTrack">
+        <!-- las 26 imágenes se generan por JS con rutas relativas -->
+      </div>
+
+      <button class="carousel-btn prev" id="carruselPrev" aria-label="Foto anterior">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="carousel-btn next" id="carruselNext" aria-label="Foto siguiente">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+
+      <div class="carousel-counter"><span id="carruselActual">1</span> / 26</div>
+    </div>
+
+    <div class="carousel-dots" id="carruselDots"></div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p class="wordmark small">Ruta<span>VIVA</span></p>
+  <p>Una herramienta comunitaria para organizar la ayuda después de un desastre natural.</p>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>
