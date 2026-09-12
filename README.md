@@ -17,22 +17,8 @@ rutaviva/
 ├── js/
 │   └── script.js
 ├── images/
-│   └── despues-terremoto/   ← coloca aquí 1.jpg ... 26.jpg
+│   └── despues-terremoto/
 └── README.md
-```
-
-## Cómo agregar tus 26 fotos
-
-1. Nombra tus fotos `1.jpg`, `2.jpg`, ... `26.jpg`.
-2. Cópialas dentro de `images/despues-terremoto/`.
-3. Listo — el carrusel de la sección "Así quedamos después del terremoto" las carga
-   automáticamente con rutas relativas, sin tocar el código.
-
-Si tus fotos tienen otra extensión (`.png`, `.jpeg`, mayúsculas, etc.), ajusta esta
-línea en `js/script.js`:
-
-```js
-img.src = `${CARPETA_FOTOS}/${i}.jpg`;
 ```
 
 ## Qué es funcional y qué es demo
